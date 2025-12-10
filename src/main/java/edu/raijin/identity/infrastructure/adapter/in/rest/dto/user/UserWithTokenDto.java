@@ -4,7 +4,7 @@ import java.util.UUID;
 
 public record UserWithTokenDto(
         UUID id,
-        String fileName,
+        String firstName,
         String lastName,
         String email,
         String token) {

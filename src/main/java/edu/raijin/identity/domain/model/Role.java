@@ -7,22 +7,22 @@ import java.time.Instant;
 
 import edu.raijin.commons.util.exception.BadRequestException;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.With;
 
 @Data
+@With
+@Builder
 @Setter(NONE)
 @NoArgsConstructor
-@RequiredArgsConstructor
 @AllArgsConstructor(access = PRIVATE)
 public class Role {
 
     private Long id;
 
-    @NonNull
     private String name;
 
     private String description;
