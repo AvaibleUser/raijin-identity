@@ -1,6 +1,7 @@
 package edu.raijin.identity.infrastructure.adapter.out.utility;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
@@ -22,7 +23,7 @@ public class JwtGeneratorAdapter implements TokenGeneratorPort {
     private final JwtEncoder jwtEncoder;
 
     @Override
-    public String generateToken(UUID userId, Object role) {
+    public String generateToken(UUID userId, String role, List<String> permissions) {
         Instant now = Instant.now();
 
         JwtClaimsSet claims = JwtClaimsSet.builder()
@@ -31,6 +32,7 @@ public class JwtGeneratorAdapter implements TokenGeneratorPort {
                 .expiresAt(now.plus(tokenProperty.expirationTime(), tokenProperty.timeUnit()))
                 .subject(userId.toString())
                 .claim("role", role)
+                .claim("permissions", permissions)
                 .build();
 
         return jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();

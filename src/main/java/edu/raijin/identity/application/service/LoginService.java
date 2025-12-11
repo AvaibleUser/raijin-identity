@@ -1,5 +1,7 @@
 package edu.raijin.identity.application.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import edu.raijin.commons.util.exception.BadRequestException;
@@ -35,7 +37,7 @@ public class LoginService implements LoginUserUseCase {
         }
 
         Role role = findRole.findRoleByUserId(user.getId());
-        String token = tokenGenerator.generateToken(user.getId(), role.getName());
+        String token = tokenGenerator.generateToken(user.getId(), role.getName(), List.of());
 
         return ComplementUser.builder()
                 .user(user)
