@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import edu.raijin.commons.util.exception.BadRequestException;
 import edu.raijin.commons.util.exception.RequestConflictException;
 import edu.raijin.identity.domain.model.User;
 import edu.raijin.identity.domain.port.messaging.RegisteredUserPublisherPort;
@@ -30,11 +29,8 @@ public class RegisterService implements RegisterUserUseCase {
         if (registerUser.exists(user.getEmail())) {
             throw new RequestConflictException("El email ya se encuentra registrado");
         }
-        try {
-            user.checkValidRegistration();
-        } catch (IllegalArgumentException e) {
-            throw new BadRequestException(e.getMessage());
-        }
+        user.checkValidRegistration();
+
         String password = encrypt.encrypt(user.getPassword());
         user.updatePassword(password);
         UUID id = registerUser.register(user);
@@ -42,7 +38,7 @@ public class RegisterService implements RegisterUserUseCase {
 
         String code = codeGenerator.generateCode();
         registerCode.register(user.getEmail(), code);
-        eventPublisher.publish(user, code);
+        eventPublisher.publishRegisteredUser(user, code);
 
         return id;
     }

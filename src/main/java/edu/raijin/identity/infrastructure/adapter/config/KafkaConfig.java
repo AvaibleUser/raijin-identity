@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.config.TopicBuilder;
 
+import edu.raijin.identity.infrastructure.adapter.config.property.KafkaTopicsProperty;
+
 @Configuration
 public class KafkaConfig {
 

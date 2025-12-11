@@ -26,15 +26,10 @@ public class LoginService implements LoginUserUseCase {
 
     @Override
     public ComplementUser login(String email, String password) {
-        User user = null;
-        try {
-            user = findUser.findByEmail(email)
-                    .filter(dbUser -> encrypt.matches(password, dbUser.getPassword()))
-                    .filter(User::checkAuthenticated)
-                    .orElseThrow(() -> new BadRequestException("El email o la contraseña es incorrecta"));
-        } catch (IllegalArgumentException e) {
-            throw new BadRequestException(e.getMessage());
-        }
+        User user = findUser.findByEmail(email)
+                .filter(dbUser -> encrypt.matches(password, dbUser.getPassword()))
+                .filter(User::checkAuthenticated)
+                .orElseThrow(() -> new BadRequestException("El email o la contraseña es incorrecta"));
 
         Role role = findRole.findRoleByUserId(user.getId());
         String token = tokenGenerator.generateToken(user.getId(), role.getName(), List.of());
