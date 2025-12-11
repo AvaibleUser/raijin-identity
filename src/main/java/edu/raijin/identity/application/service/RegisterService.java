@@ -36,9 +36,9 @@ public class RegisterService implements RegisterUserUseCase {
             throw new BadRequestException(e.getMessage());
         }
         String password = encrypt.encrypt(user.getPassword());
-        user = user.withPassword(password);
+        user.updatePassword(password);
         UUID id = registerUser.register(user);
-        user = user.withId(id);
+        user.updateId(id);
 
         String code = codeGenerator.generateCode();
         registerCode.register(user.getEmail(), code);

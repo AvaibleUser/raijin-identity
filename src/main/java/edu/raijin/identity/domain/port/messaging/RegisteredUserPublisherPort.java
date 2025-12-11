@@ -6,5 +6,5 @@ import edu.raijin.identity.domain.model.User;
 @Port
 public interface RegisteredUserPublisherPort {
 
-    void publish(User user, String code);
+    void publishRegisteredUser(User user, String code);
 }

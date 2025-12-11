@@ -55,4 +55,4 @@ security:
 
 kafka:
   topics:
-    registered-user: registered-user
+    user-commands-topic: user-commands

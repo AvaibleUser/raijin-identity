@@ -9,8 +9,8 @@ import org.springframework.kafka.config.TopicBuilder;
 public class KafkaConfig {
 
     @Bean
-    NewTopic topic() {
-        return TopicBuilder.name("registered-user")
+    NewTopic topic(KafkaTopicsProperty kafkaTopics) {
+        return TopicBuilder.name(kafkaTopics.userCommandsTopic())
                 .partitions(5)
                 .replicas(1)
                 .build();

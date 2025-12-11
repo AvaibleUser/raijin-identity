@@ -3,7 +3,7 @@ package edu.raijin.identity.infrastructure.adapter.out.messaging.topic;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Component;
 
-import edu.raijin.commons.infrastructure.adapter.messaging.event.RegisteredUserEvent;
+import edu.raijin.commons.infrastructure.adapter.messaging.event.UserEvent;
 import edu.raijin.commons.util.annotation.Adapter;
 import edu.raijin.identity.domain.model.User;
 import edu.raijin.identity.domain.port.messaging.RegisteredUserPublisherPort;
@@ -16,13 +16,13 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class RegisteredUserKafkaPublisherAdapter implements RegisteredUserPublisherPort {
 
-    private final UserEventMapper UserEventMapper;
+    private final UserEventMapper mapper;
     private final KafkaTopicsProperty kafkaTopics;
-    private final KafkaTemplate<String, RegisteredUserEvent> kafkaTemplate;
+    private final KafkaTemplate<String, UserEvent> kafkaTemplate;
 
     @Override
-    public void publish(User user, String code) {
-        RegisteredUserEvent event = UserEventMapper.toEvent(user, code);
-        kafkaTemplate.send(kafkaTopics.registeredUser(), "user", event);
+    public void publishRegisteredUser(User user, String code) {
+        UserEvent event = mapper.toEvent(user, code);
+        kafkaTemplate.send(kafkaTopics.userCommandsTopic(), "create", event);
     }
 }

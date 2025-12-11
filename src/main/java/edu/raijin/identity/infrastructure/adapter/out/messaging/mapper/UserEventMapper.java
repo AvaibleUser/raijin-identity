@@ -5,7 +5,7 @@ import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import edu.raijin.commons.infrastructure.adapter.messaging.event.RegisteredUserEvent;
+import edu.raijin.commons.infrastructure.adapter.messaging.event.UserEvent;
 import edu.raijin.commons.util.annotation.Adapter;
 import edu.raijin.identity.domain.model.User;
 
@@ -14,5 +14,5 @@ import edu.raijin.identity.domain.model.User;
 public interface UserEventMapper {
 
     @Mapping(target = "code", source = "code")
-    RegisteredUserEvent toEvent(User user, String code);
+    UserEvent toEvent(User user, String code);
 }

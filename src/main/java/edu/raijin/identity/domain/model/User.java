@@ -86,8 +86,16 @@ public class User {
         this.lastName = lastName;
     }
 
+    public void updateId(UUID id) {
+        if (isNull(this.id)) {
+            this.id = id;
+        }
+    }
+
     public void updatePassword(String password) {
-        this.password = password;
+        if (!this.password.equals(password)) {
+            this.password = password;
+        }
     }
 
     public void toggleVerified() {

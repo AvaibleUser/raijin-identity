@@ -37,7 +37,6 @@ public class UserController {
     private final UserDtoMapper mapper;
 
     @PostMapping("/sign-in")
-    @ResponseStatus(CREATED)
     public UserWithTokenDto login(@RequestBody @Valid LoginUserDto user) {
         ComplementUser userLogged = login.login(user.email(), user.password());
 
