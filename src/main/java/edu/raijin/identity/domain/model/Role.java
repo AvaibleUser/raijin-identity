@@ -25,6 +25,8 @@ public class Role {
 
     private String name;
 
+    private String color;
+
     private String description;
 
     private Boolean active;

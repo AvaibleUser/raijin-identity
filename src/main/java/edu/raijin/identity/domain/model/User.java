@@ -1,12 +1,11 @@
 package edu.raijin.identity.domain.model;
 
+import static java.util.Objects.isNull;
 import static lombok.AccessLevel.NONE;
 import static lombok.AccessLevel.PRIVATE;
 
 import java.time.Instant;
 import java.util.UUID;
-
-import org.springframework.security.authentication.InsufficientAuthenticationException;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,9 +28,9 @@ public class User {
 
     private String lastName;
 
-    private String email;
+    private String dpi;
 
-    private String token;
+    private String email;
 
     private String password;
 
@@ -50,15 +49,33 @@ public class User {
 
     private Instant deletedAt;
 
+    public void checkValidRegistration() {
+        if (isNull(firstName)) {
+            throw new IllegalArgumentException("El nombre es requerido");
+        }
+        if (isNull(lastName)) {
+            throw new IllegalArgumentException("El apellido es requerido");
+        }
+        if (isNull(dpi)) {
+            throw new IllegalArgumentException("El DPI es requerido");
+        }
+        if (isNull(email)) {
+            throw new IllegalArgumentException("El email es requerido");
+        }
+        if (isNull(password)) {
+            throw new IllegalArgumentException("La contraseña es requerida");
+        }
+    }
+
     public boolean checkAuthenticated() {
         if (!verified) {
-            throw new InsufficientAuthenticationException("El usuario no ha sido verificado");
+            throw new IllegalArgumentException("El usuario no ha sido verificado");
         }
         if (banned) {
-            throw new InsufficientAuthenticationException("El usuario se encuentra baneado");
+            throw new IllegalArgumentException("El usuario se encuentra baneado");
         }
         if (!active) {
-            throw new InsufficientAuthenticationException("El usuario se encuentra inactivo o eliminado");
+            throw new IllegalArgumentException("El usuario se encuentra inactivo o eliminado");
         }
 
         return true;

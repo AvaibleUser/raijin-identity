@@ -40,6 +40,8 @@ public class RolesEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
+    private String color;
+
     private String description;
 
     private Boolean active;

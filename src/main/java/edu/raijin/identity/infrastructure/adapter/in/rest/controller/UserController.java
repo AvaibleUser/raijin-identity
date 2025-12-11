@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import edu.raijin.commons.util.annotation.Adapter;
-import edu.raijin.identity.domain.model.User;
+import edu.raijin.identity.domain.model.ComplementUser;
 import edu.raijin.identity.domain.usecase.ConfirmUserUseCase;
 import edu.raijin.identity.domain.usecase.LoginUserUseCase;
 import edu.raijin.identity.domain.usecase.RegisterUserUseCase;
@@ -39,9 +39,10 @@ public class UserController {
     @PostMapping("/sign-in")
     @ResponseStatus(CREATED)
     public UserWithTokenDto login(@RequestBody @Valid LoginUserDto user) {
-        User userLogged = login.login(user.email(), user.password());
+        ComplementUser userLogged = login.login(user.email(), user.password());
 
-        return mapper.toDto(userLogged);
+        return mapper.toDto(userLogged.getUser(), userLogged.getToken(), userLogged.getRole().getName(),
+                userLogged.getPermissions());
     }
 
     @PostMapping("/sign-up")
@@ -54,8 +55,9 @@ public class UserController {
 
     @PutMapping("/sign-up")
     public UserWithTokenDto confirmAccount(@RequestBody @Valid ConfirmUserDto user) {
-        User userLogged = confirm.confirm(user.code(), user.email());
+        ComplementUser userLogged = confirm.confirm(user.code(), user.email());
 
-        return mapper.toDto(userLogged);
+        return mapper.toDto(userLogged.getUser(), userLogged.getToken(), userLogged.getRole().getName(),
+                userLogged.getPermissions());
     }
 }

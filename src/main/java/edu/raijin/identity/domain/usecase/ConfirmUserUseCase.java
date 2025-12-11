@@ -1,10 +1,10 @@
 package edu.raijin.identity.domain.usecase;
 
 import edu.raijin.commons.util.annotation.UseCase;
-import edu.raijin.identity.domain.model.User;
+import edu.raijin.identity.domain.model.ComplementUser;
 
 @UseCase
 public interface ConfirmUserUseCase {
 
-    User confirm(String code, String email);
+    ComplementUser confirm(String code, String email);
 }

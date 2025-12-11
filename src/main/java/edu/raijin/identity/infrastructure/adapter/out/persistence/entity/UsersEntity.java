@@ -47,6 +47,10 @@ public class UsersEntity {
     private String lastName;
 
     @NonNull
+    @Column(nullable = false)
+    private String dpi;
+
+    @NonNull
     @Column(nullable = false, unique = true)
     private String email;
 

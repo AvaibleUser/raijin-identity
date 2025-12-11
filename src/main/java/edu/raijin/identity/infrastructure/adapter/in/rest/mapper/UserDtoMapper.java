@@ -2,6 +2,8 @@ package edu.raijin.identity.infrastructure.adapter.in.rest.mapper;
 
 import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -14,7 +16,7 @@ import edu.raijin.identity.infrastructure.adapter.in.rest.dto.user.UserWithToken
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = IGNORE, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserDtoMapper {
 
-    UserWithTokenDto toDto(User user);
+    UserWithTokenDto toDto(User user, String token, String role, List<String> permissions);
 
     User toDomain(AddUserDto user);
 }
