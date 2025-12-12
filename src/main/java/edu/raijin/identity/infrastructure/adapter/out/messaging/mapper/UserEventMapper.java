@@ -5,7 +5,7 @@ import static org.mapstruct.NullValuePropertyMappingStrategy.IGNORE;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-import edu.raijin.commons.infrastructure.adapter.messaging.event.UserEvent;
+import edu.raijin.commons.infrastructure.adapter.messaging.event.identity.UserEvent;
 import edu.raijin.commons.util.annotation.Adapter;
 import edu.raijin.identity.domain.model.User;
 
