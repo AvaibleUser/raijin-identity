@@ -2,6 +2,9 @@ package edu.raijin.identity.role.domain.port.persistence;
 
 import java.util.UUID;
 
+import org.springframework.data.domain.Pageable;
+
+import edu.raijin.commons.domain.model.Paged;
 import edu.raijin.commons.util.annotation.Port;
 import edu.raijin.identity.role.domain.model.Role;
 
@@ -11,4 +14,6 @@ public interface FindRolePort {
     Role findRoleByName(String name);
 
     Role findRoleByUserId(UUID userId);
+
+    Paged<Role> fetchAll(Pageable pageable);
 }

@@ -1,9 +1,11 @@
 package edu.raijin.identity.role.domain.model;
 
+import static edu.raijin.commons.util.exception.Exceptions.requireNonNull;
 import static lombok.AccessLevel.NONE;
 import static lombok.AccessLevel.PRIVATE;
 
 import java.time.Instant;
+import java.util.List;
 
 import edu.raijin.commons.util.exception.BadRequestException;
 import lombok.AllArgsConstructor;
@@ -25,11 +27,14 @@ public class Role {
 
     private String name;
 
-    private String color;
-
     private String description;
 
-    private Boolean active;
+    private String color;
+
+    @Builder.Default
+    private Boolean active = true;
+
+    private List<Long> permissions;
 
     private Instant createdAt;
 
@@ -37,17 +42,21 @@ public class Role {
 
     private Instant deletedAt;
 
+    public void checkValidRegistration() {
+        requireNonNull(name, () -> new BadRequestException("El nombre es requerido"));
+    }
+
     public boolean checkActive() {
         if (!active) {
             throw new BadRequestException("El rol se encuentra inactivo");
         }
-
         return true;
     }
 
-    public void update(String name, String description) {
-        this.name = name;
-        this.description = description;
+    public void update(Role update) {
+        this.description = update.description;
+        this.color = update.color;
+        this.permissions = update.permissions;
     }
 
     public void delete() {
