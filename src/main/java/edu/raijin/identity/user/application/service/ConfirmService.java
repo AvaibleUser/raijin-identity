@@ -3,6 +3,7 @@ package edu.raijin.identity.user.application.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.raijin.commons.util.exception.ValueNotFoundException;
 import edu.raijin.identity.role.domain.model.Role;
@@ -25,12 +26,17 @@ public class ConfirmService implements ConfirmUserUseCase {
     private final TokenGeneratorPort tokenGenerator;
 
     @Override
+    @Transactional
     public ComplementUser confirm(String code, String email) {
         if (!removeCode.remove(code, email)) {
             throw new ValueNotFoundException("El código no se encuentra registrado o ha expirado");
         }
+        User user = verifyUser.findByEmail(email)
+                .orElseThrow(() -> new ValueNotFoundException("El email no se encuentra registrado"));
 
-        User user = verifyUser.verify(email);
+        user.verify();
+        verifyUser.update(user);
+
         Role role = findRole.findRoleByUserId(user.getId());
         String token = tokenGenerator.generateToken(user.getId(), role.getName(), List.of());
 

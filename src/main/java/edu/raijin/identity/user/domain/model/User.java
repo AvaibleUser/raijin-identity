@@ -4,6 +4,7 @@ import static edu.raijin.commons.util.exception.Exceptions.requireNonNull;
 import static java.util.Objects.isNull;
 import static lombok.AccessLevel.NONE;
 import static lombok.AccessLevel.PRIVATE;
+import static org.apache.commons.lang3.ObjectUtils.firstNonNull;
 
 import java.time.Instant;
 import java.util.UUID;
@@ -46,6 +47,10 @@ public class User {
     @Builder.Default
     private Boolean active = false;
 
+    private Long roleId;
+
+    private Long roleColor;
+
     private Instant createdAt;
 
     private Instant updatedAt;
@@ -74,9 +79,11 @@ public class User {
         return true;
     }
 
-    public void update(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
+    public void update(User update) {
+        this.firstName = firstNonNull(firstName, update.firstName);
+        this.lastName = firstNonNull(lastName, update.lastName);
+        this.password = firstNonNull(password, update.password);
+        this.roleId = firstNonNull(roleId, update.roleId);
     }
 
     public void updateId(UUID id) {
@@ -91,11 +98,17 @@ public class User {
         }
     }
 
-    public void toggleVerified() {
-        this.verified = !this.verified;
+    public void verify() {
+        this.verified = true;
+        this.active = true;
     }
 
-    public void toggleBanned() {
-        this.banned = !this.banned;
+    public void ban() {
+        this.banned = true;
+    }
+
+    public void delete() {
+        this.active = false;
+        this.deletedAt = Instant.now();
     }
 }

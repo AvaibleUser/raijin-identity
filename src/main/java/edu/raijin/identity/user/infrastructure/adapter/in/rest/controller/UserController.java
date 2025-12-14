@@ -1,62 +1,70 @@
 package edu.raijin.identity.user.infrastructure.adapter.in.rest.controller;
 
-import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.NO_CONTENT;
 
 import java.util.UUID;
 
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import edu.raijin.commons.domain.model.Paged;
 import edu.raijin.commons.util.annotation.Adapter;
-import edu.raijin.identity.user.domain.model.ComplementUser;
-import edu.raijin.identity.user.domain.usecase.ConfirmUserUseCase;
-import edu.raijin.identity.user.domain.usecase.LoginUserUseCase;
-import edu.raijin.identity.user.domain.usecase.RegisterUserUseCase;
-import edu.raijin.identity.user.infrastructure.adapter.in.rest.dto.user.AddUserDto;
-import edu.raijin.identity.user.infrastructure.adapter.in.rest.dto.user.ConfirmUserDto;
-import edu.raijin.identity.user.infrastructure.adapter.in.rest.dto.user.LoginUserDto;
-import edu.raijin.identity.user.infrastructure.adapter.in.rest.dto.user.UserIdDto;
-import edu.raijin.identity.user.infrastructure.adapter.in.rest.dto.user.UserWithTokenDto;
+import edu.raijin.identity.user.domain.model.User;
+import edu.raijin.identity.user.domain.usecase.BanUserUseCase;
+import edu.raijin.identity.user.domain.usecase.DeleteUserUseCase;
+import edu.raijin.identity.user.domain.usecase.FetchUserUseCase;
+import edu.raijin.identity.user.domain.usecase.FetchUsersUseCase;
+import edu.raijin.identity.user.domain.usecase.UpdateUserUseCase;
+import edu.raijin.identity.user.infrastructure.adapter.in.rest.dto.user.UpdateUserDto;
+import edu.raijin.identity.user.infrastructure.adapter.in.rest.dto.user.UserWithRoleDto;
 import edu.raijin.identity.user.infrastructure.adapter.in.rest.mapper.UserDtoMapper;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Adapter
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/users")
 @RequiredArgsConstructor
 public class UserController {
 
-    private final LoginUserUseCase login;
-    private final RegisterUserUseCase register;
-    private final ConfirmUserUseCase confirm;
+    private final FetchUserUseCase fetchUser;
+    private final FetchUsersUseCase fetchAll;
+    private final UpdateUserUseCase update;
+    private final BanUserUseCase ban;
+    private final DeleteUserUseCase remove;
     private final UserDtoMapper mapper;
 
-    @PostMapping("/sign-in")
-    public UserWithTokenDto login(@RequestBody @Valid LoginUserDto user) {
-        ComplementUser userLogged = login.login(user.email(), user.password());
-
-        return mapper.toDto(userLogged.getUser(), userLogged.getToken(), userLogged.getRole().getName(),
-                userLogged.getPermissions());
+    @GetMapping
+    public Paged<UserWithRoleDto> fetchAll(Pageable pageable) {
+        return fetchAll.fetchAll(pageable).map(mapper::toDto);
     }
 
-    @PostMapping("/sign-up")
-    @ResponseStatus(CREATED)
-    public UserIdDto register(@RequestBody @Valid AddUserDto user) {
-        UUID userId = register.register(mapper.toDomain(user));
-
-        return new UserIdDto(userId);
+    @GetMapping("/{id}")
+    public UserWithRoleDto fetchUser(@PathVariable UUID id) {
+        return mapper.toDto(fetchUser.fetchById(id));
     }
 
-    @PutMapping("/sign-up")
-    public UserWithTokenDto confirmAccount(@RequestBody @Valid ConfirmUserDto user) {
-        ComplementUser userLogged = confirm.confirm(user.code(), user.email());
+    @PutMapping("/{id}")
+    public UserWithRoleDto update(@PathVariable UUID id, @RequestBody UpdateUserDto user) {
+        User updated = update.update(id, mapper.toDomain(user));
+        return mapper.toDto(updated);
+    }
 
-        return mapper.toDto(userLogged.getUser(), userLogged.getToken(), userLogged.getRole().getName(),
-                userLogged.getPermissions());
+    @PatchMapping("/{id}/ban")
+    @ResponseStatus(NO_CONTENT)
+    public void ban(@PathVariable UUID id) {
+        ban.ban(id);
+    }
+
+    @PatchMapping("/{id}")
+    @ResponseStatus(NO_CONTENT)
+    public void remove(@PathVariable UUID id) {
+        remove.delete(id);
     }
 }

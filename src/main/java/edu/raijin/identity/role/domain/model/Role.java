@@ -3,6 +3,7 @@ package edu.raijin.identity.role.domain.model;
 import static edu.raijin.commons.util.exception.Exceptions.requireNonNull;
 import static lombok.AccessLevel.NONE;
 import static lombok.AccessLevel.PRIVATE;
+import static org.apache.commons.lang3.ObjectUtils.firstNonNull;
 
 import java.time.Instant;
 import java.util.List;
@@ -54,9 +55,9 @@ public class Role {
     }
 
     public void update(Role update) {
-        this.description = update.description;
-        this.color = update.color;
-        this.permissions = update.permissions;
+        this.description = firstNonNull(description, update.description);
+        this.permissions = firstNonNull(permissions, update.permissions);
+        this.color = firstNonNull(color, update.color);
     }
 
     public void delete() {
