@@ -15,5 +15,5 @@ public interface FindRolePort {
 
     Role findRoleByUserId(UUID userId);
 
-    Paged<Role> fetchAll(Pageable pageable);
+    Paged<Role> findAll(Pageable pageable);
 }

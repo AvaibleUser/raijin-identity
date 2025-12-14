@@ -18,7 +18,7 @@ public class CreateRoleService implements CreateRoleUseCase {
     @Override
     @Transactional
     public Role create(Role role) {
-        if (registerRole.exists(role.getName())) {
+        if (registerRole.existsByName(role.getName())) {
             throw new RequestConflictException("Ya existe un rol con ese nombre");
         }
         role.checkValidRegistration();

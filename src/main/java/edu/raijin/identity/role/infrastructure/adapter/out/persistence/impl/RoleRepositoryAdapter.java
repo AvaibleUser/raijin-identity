@@ -45,13 +45,13 @@ public class RoleRepositoryAdapter implements FindRolePort, RegisterRolePort, Up
     }
 
     @Override
-    public Paged<Role> fetchAll(Pageable pageable) {
+    public Paged<Role> findAll(Pageable pageable) {
         Page<Role> entities = roleRepository.findAllByActiveTrue(pageable).map(mapper::toDomain);
         return Paged.from(entities);
     }
 
     @Override
-    public boolean exists(String name) {
+    public boolean existsByName(String name) {
         return roleRepository.existsByName(name);
     }
 

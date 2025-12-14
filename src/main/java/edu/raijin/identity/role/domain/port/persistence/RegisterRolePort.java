@@ -6,7 +6,7 @@ import edu.raijin.identity.role.domain.model.Role;
 @Port
 public interface RegisterRolePort {
 
-    boolean exists(String name);
+    boolean existsByName(String name);
 
     Role create(Role role);
 }
