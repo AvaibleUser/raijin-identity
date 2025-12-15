@@ -20,13 +20,16 @@ import edu.raijin.commons.util.annotation.Adapter;
 import edu.raijin.commons.util.annotation.CurrentUser;
 import edu.raijin.identity.user.domain.model.User;
 import edu.raijin.identity.user.domain.usecase.BanUserUseCase;
+import edu.raijin.identity.user.domain.usecase.ChangeUserRoleUseCase;
 import edu.raijin.identity.user.domain.usecase.DeleteUserUseCase;
 import edu.raijin.identity.user.domain.usecase.FetchUserUseCase;
 import edu.raijin.identity.user.domain.usecase.FetchUsersUseCase;
 import edu.raijin.identity.user.domain.usecase.UpdateUserUseCase;
+import edu.raijin.identity.user.infrastructure.adapter.in.rest.dto.user.ChangeUserRoleDto;
 import edu.raijin.identity.user.infrastructure.adapter.in.rest.dto.user.UpdateUserDto;
 import edu.raijin.identity.user.infrastructure.adapter.in.rest.dto.user.UserWithRoleDto;
 import edu.raijin.identity.user.infrastructure.adapter.in.rest.mapper.UserDtoMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Adapter
@@ -39,6 +42,7 @@ public class UserController {
     private final FetchUsersUseCase fetchAll;
     private final UpdateUserUseCase update;
     private final BanUserUseCase ban;
+    private final ChangeUserRoleUseCase changeRole;
     private final DeleteUserUseCase remove;
     private final UserDtoMapper mapper;
 
@@ -67,6 +71,11 @@ public class UserController {
     @ResponseStatus(NO_CONTENT)
     public void ban(@PathVariable UUID id) {
         ban.ban(id);
+    }
+
+    @PatchMapping("/{id}/role")
+    public void changeRole(@PathVariable UUID id, @RequestBody @Valid ChangeUserRoleDto role) {
+        changeRole.changeRole(id, role.roleId());
     }
 
     @DeleteMapping
