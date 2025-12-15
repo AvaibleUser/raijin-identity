@@ -22,6 +22,7 @@ public class UpdateRoleService implements UpdateRoleUseCase {
                 .orElseThrow(() -> new ValueNotFoundException("El rol no se encuentra registrado"));
 
         role.update(updated);
+        role.checkValidRegistration();
         return update.update(role);
     }
 }

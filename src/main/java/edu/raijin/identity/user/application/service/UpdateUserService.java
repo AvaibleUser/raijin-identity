@@ -28,6 +28,7 @@ public class UpdateUserService implements UpdateUserUseCase {
             user.setPassword(password);
         }
         updated.update(user);
+        updated.checkValidRegistration();
         return update.update(updated);
     }
 }
