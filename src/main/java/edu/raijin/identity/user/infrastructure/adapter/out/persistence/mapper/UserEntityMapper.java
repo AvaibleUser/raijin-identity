@@ -18,5 +18,7 @@ public interface UserEntityMapper {
     @Mapping(target = "roleColor", source = "role.color")
     User toDomain(UsersEntity entity);
 
+    @Mapping(target = "role.id", source = "roleId")
+    @Mapping(target = "role.name", constant = "TEST")
     UsersEntity toEntity(User domain);
 }

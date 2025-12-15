@@ -5,6 +5,7 @@ import static org.springframework.http.HttpStatus.NO_CONTENT;
 import java.util.UUID;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import edu.raijin.commons.domain.model.Paged;
 import edu.raijin.commons.util.annotation.Adapter;
+import edu.raijin.commons.util.annotation.CurrentUser;
 import edu.raijin.identity.user.domain.model.User;
 import edu.raijin.identity.user.domain.usecase.BanUserUseCase;
 import edu.raijin.identity.user.domain.usecase.DeleteUserUseCase;
@@ -45,13 +47,18 @@ public class UserController {
         return fetchAll.fetchAll(pageable).map(mapper::toDto);
     }
 
+    @GetMapping("/me")
+    public UserWithRoleDto fetchMe(@CurrentUser UUID id) {
+        return mapper.toDto(fetchUser.fetchById(id));
+    }
+
     @GetMapping("/{id}")
     public UserWithRoleDto fetchUser(@PathVariable UUID id) {
         return mapper.toDto(fetchUser.fetchById(id));
     }
 
-    @PutMapping("/{id}")
-    public UserWithRoleDto update(@PathVariable UUID id, @RequestBody UpdateUserDto user) {
+    @PutMapping
+    public UserWithRoleDto update(@CurrentUser UUID id, @RequestBody UpdateUserDto user) {
         User updated = update.update(id, mapper.toDomain(user));
         return mapper.toDto(updated);
     }
@@ -62,9 +69,9 @@ public class UserController {
         ban.ban(id);
     }
 
-    @PatchMapping("/{id}")
+    @DeleteMapping
     @ResponseStatus(NO_CONTENT)
-    public void remove(@PathVariable UUID id) {
+    public void remove(@CurrentUser UUID id) {
         remove.delete(id);
     }
 }

@@ -55,9 +55,9 @@ public class Role {
     }
 
     public void update(Role update) {
-        this.description = firstNonNull(description, update.description);
-        this.permissions = firstNonNull(permissions, update.permissions);
-        this.color = firstNonNull(color, update.color);
+        this.description = firstNonNull(update.description, description);
+        this.permissions = firstNonNull(update.permissions, permissions);
+        this.color = firstNonNull(update.color, color);
     }
 
     public void delete() {

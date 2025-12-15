@@ -39,7 +39,7 @@ public class RegisterUserService implements RegisterUserUseCase {
         Role role = findRole.findRoleByName("USER");
 
         String password = encrypt.encrypt(user.getPassword());
-        user.updatePassword(password);
+        user.setPassword(password);
         UUID id = registerUser.register(user, role.getId());
         user.updateId(id);
 

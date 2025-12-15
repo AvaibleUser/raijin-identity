@@ -49,7 +49,7 @@ public class User {
 
     private Long roleId;
 
-    private Long roleColor;
+    private String roleColor;
 
     private Instant createdAt;
 
@@ -80,10 +80,8 @@ public class User {
     }
 
     public void update(User update) {
-        this.firstName = firstNonNull(firstName, update.firstName);
-        this.lastName = firstNonNull(lastName, update.lastName);
-        this.password = firstNonNull(password, update.password);
-        this.roleId = firstNonNull(roleId, update.roleId);
+        this.firstName = firstNonNull(update.firstName, firstName);
+        this.lastName = firstNonNull(update.lastName, lastName);
     }
 
     public void updateId(UUID id) {
@@ -92,10 +90,12 @@ public class User {
         }
     }
 
-    public void updatePassword(String password) {
-        if (!this.password.equals(password)) {
-            this.password = password;
-        }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRoleId(Long role) {
+        this.roleId = role;
     }
 
     public void verify() {
