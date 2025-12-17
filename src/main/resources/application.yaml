@@ -39,7 +39,7 @@ spring:
 
   kafka:
     bootstrap-servers:
-      - "localhost:29092"
+      - ${KAFKA_HOST}
 
     producer:
       value-serializer: org.springframework.kafka.support.serializer.JacksonJsonSerializer
