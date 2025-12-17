@@ -25,6 +25,7 @@ public class FetchRolesService implements FetchRolesUseCase {
     }
 
     @Override
+    @Transactional
     public Paged<Role> fetchAll(Pageable pageable) {
         return fetchRole.findAll(pageable);
     }

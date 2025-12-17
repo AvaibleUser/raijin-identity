@@ -3,6 +3,7 @@ package edu.raijin.identity.user.application.service;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.raijin.commons.util.exception.ValueNotFoundException;
 import edu.raijin.identity.user.domain.model.User;
@@ -19,6 +20,7 @@ public class UpdateUserService implements UpdateUserUseCase {
     private final EncryptPort encrypt;
 
     @Override
+    @Transactional
     public User update(UUID id, User user) {
         User updated = update.findById(id)
                 .orElseThrow(() -> new ValueNotFoundException("El usuario no se encuentra registrado"));

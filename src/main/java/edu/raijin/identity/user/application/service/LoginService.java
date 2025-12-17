@@ -3,6 +3,7 @@ package edu.raijin.identity.user.application.service;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.raijin.commons.util.exception.BadRequestException;
 import edu.raijin.identity.role.domain.model.Role;
@@ -25,6 +26,7 @@ public class LoginService implements LoginUserUseCase {
     private final TokenGeneratorPort tokenGenerator;
 
     @Override
+    @Transactional
     public ComplementUser login(String email, String password) {
         User user = findUser.findByEmail(email)
                 .filter(dbUser -> encrypt.matches(password, dbUser.getPassword()))
