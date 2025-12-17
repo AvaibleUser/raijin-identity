@@ -45,6 +45,12 @@ public class RoleController {
         return roles.map(mapper::toDto);
     }
 
+    @GetMapping("/{id}")
+    public RoleDto fetch(@PathVariable Long id) {
+        Role role = fetch.fetchById(id);
+        return mapper.toDto(role);
+    }
+
     @PostMapping
     @ResponseStatus(CREATED)
     public RoleDto create(@RequestBody @Valid AddRoleDto role) {

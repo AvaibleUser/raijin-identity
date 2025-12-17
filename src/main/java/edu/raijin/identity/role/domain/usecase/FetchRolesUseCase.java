@@ -9,5 +9,7 @@ import edu.raijin.identity.role.domain.model.Role;
 @UseCase
 public interface FetchRolesUseCase {
 
+    Role fetchById(Long id);
+
     Paged<Role> fetchAll(Pageable pageable);
 }

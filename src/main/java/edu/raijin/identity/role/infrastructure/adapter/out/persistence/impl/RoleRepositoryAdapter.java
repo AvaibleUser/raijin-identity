@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.hibernate.Hibernate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -68,7 +69,10 @@ public class RoleRepositoryAdapter implements FindRolePort, RegisterRolePort, Up
 
     @Override
     public Optional<Role> findById(Long id) {
-        return roleRepository.findById(id).map(mapper::toDomain);
+        return roleRepository.findById(id).map(role -> {
+            Hibernate.initialize(role.getPermissions());
+            return mapper.toDomain(role);
+        });
     }
 
     @Override
