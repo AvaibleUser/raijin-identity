@@ -11,5 +11,6 @@ public record UserWithTokenDto(
         String email,
         String token,
         String role,
+        String color,
         List<String> permissions) {
 }

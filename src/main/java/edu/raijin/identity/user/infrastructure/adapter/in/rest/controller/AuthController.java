@@ -41,7 +41,7 @@ public class AuthController {
         ComplementUser userLogged = login.login(user.email(), user.password());
 
         return mapper.toDto(userLogged.getUser(), userLogged.getToken(), userLogged.getRole().getName(),
-                userLogged.getPermissions());
+                userLogged.getRole().getColor(), userLogged.getPermissions());
     }
 
     @PostMapping("/sign-up")
@@ -57,6 +57,6 @@ public class AuthController {
         ComplementUser userLogged = confirm.confirm(user.code(), user.email());
 
         return mapper.toDto(userLogged.getUser(), userLogged.getToken(), userLogged.getRole().getName(),
-                userLogged.getPermissions());
+                userLogged.getRole().getColor(), userLogged.getPermissions());
     }
 }

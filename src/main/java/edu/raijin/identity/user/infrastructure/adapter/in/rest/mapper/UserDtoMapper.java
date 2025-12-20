@@ -18,7 +18,7 @@ import edu.raijin.identity.user.infrastructure.adapter.in.rest.dto.user.UserWith
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = IGNORE, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserDtoMapper {
 
-    UserWithTokenDto toDto(User user, String token, String role, List<String> permissions);
+    UserWithTokenDto toDto(User user, String token, String role, String color, List<String> permissions);
 
     UserWithRoleDto toDto(User user);
 
