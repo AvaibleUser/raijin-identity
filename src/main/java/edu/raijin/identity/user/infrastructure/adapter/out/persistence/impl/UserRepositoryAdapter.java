@@ -1,10 +1,14 @@
 package edu.raijin.identity.user.infrastructure.adapter.out.persistence.impl;
 
+import static edu.raijin.identity.user.infrastructure.adapter.out.persistence.specification.JpaUserSpecification.byActive;
+import static edu.raijin.identity.user.infrastructure.adapter.out.persistence.specification.JpaUserSpecification.byNameWith;
+
 import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
 import edu.raijin.commons.domain.model.Paged;
@@ -65,8 +69,9 @@ public class UserRepositoryAdapter
     }
 
     @Override
-    public Paged<User> findAll(Pageable pageable) {
-        Page<User> page = userRepository.findAllByActiveTrue(pageable).map(mapper::toDomain);
+    public Paged<User> findAll(Pageable pageable, String name) {
+        Specification<UsersEntity> spec = byActive().and(byNameWith(name));
+        Page<User> page = userRepository.findAll(spec, pageable).map(mapper::toDomain);
         return Paged.from(page);
     }
 }

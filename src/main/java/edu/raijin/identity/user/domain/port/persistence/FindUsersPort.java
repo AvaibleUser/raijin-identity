@@ -9,5 +9,5 @@ import edu.raijin.identity.user.domain.model.User;
 @Port
 public interface FindUsersPort {
 
-    Paged<User> findAll(Pageable pageable);
+    Paged<User> findAll(Pageable pageable, String name);
 }

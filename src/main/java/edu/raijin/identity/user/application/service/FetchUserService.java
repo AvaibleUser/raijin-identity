@@ -22,8 +22,8 @@ public class FetchUserService implements FetchUserUseCase, FetchUsersUseCase {
     private final FindUserPort findUser;
 
     @Override
-    public Paged<User> fetchAll(Pageable pageable) {
-        return findAll.findAll(pageable);
+    public Paged<User> fetchAll(Pageable pageable, String name) {
+        return findAll.findAll(pageable, name);
     }
 
     @Override

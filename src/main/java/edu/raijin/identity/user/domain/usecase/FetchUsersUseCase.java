@@ -9,5 +9,5 @@ import edu.raijin.identity.user.domain.model.User;
 @UseCase
 public interface FetchUsersUseCase {
 
-    Paged<User> fetchAll(Pageable pageable);
+    Paged<User> fetchAll(Pageable pageable, String name);
 }
