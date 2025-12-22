@@ -12,9 +12,6 @@ public class KafkaConfig {
 
     @Bean
     NewTopic topic(KafkaTopicsProperty kafkaTopics) {
-        return TopicBuilder.name(kafkaTopics.userCommandsTopic())
-                .partitions(5)
-                .replicas(1)
-                .build();
+        return TopicBuilder.name(kafkaTopics.userCommandsTopic()).build();
     }
 }
