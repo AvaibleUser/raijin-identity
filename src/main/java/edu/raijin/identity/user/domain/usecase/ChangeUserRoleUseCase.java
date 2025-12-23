@@ -8,4 +8,6 @@ import edu.raijin.commons.util.annotation.UseCase;
 public interface ChangeUserRoleUseCase {
 
     void changeRole(UUID id, Long role);
+
+    void changeRole(UUID id, String role);
 }

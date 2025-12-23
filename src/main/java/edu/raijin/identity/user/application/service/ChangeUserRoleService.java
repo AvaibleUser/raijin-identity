@@ -3,8 +3,10 @@ package edu.raijin.identity.user.application.service;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import edu.raijin.commons.util.exception.ValueNotFoundException;
+import edu.raijin.identity.role.domain.model.Role;
 import edu.raijin.identity.role.domain.port.persistence.FindRolePort;
 import edu.raijin.identity.user.domain.model.User;
 import edu.raijin.identity.user.domain.port.persistence.UpdateUserPort;
@@ -19,6 +21,7 @@ public class ChangeUserRoleService implements ChangeUserRoleUseCase {
     private final FindRolePort findRole;
 
     @Override
+    @Transactional
     public void changeRole(UUID id, Long role) {
         User user = update.findById(id)
                 .orElseThrow(() -> new ValueNotFoundException("El usuario no se encuentra registrado"));
@@ -27,5 +30,12 @@ public class ChangeUserRoleService implements ChangeUserRoleUseCase {
 
         user.setRoleId(role);
         update.update(user);
+    }
+
+    @Override
+    @Transactional
+    public void changeRole(UUID id, String roleName) {
+        Role role1 = findRole.findRoleByName(roleName);
+        changeRole(id, role1.getId());
     }
 }

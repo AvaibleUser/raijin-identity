@@ -82,6 +82,7 @@ public class User {
     public void update(User update) {
         this.firstName = firstNonNull(update.firstName, firstName);
         this.lastName = firstNonNull(update.lastName, lastName);
+        this.banned = firstNonNull(update.banned, banned);
     }
 
     public void updateId(UUID id) {
@@ -104,7 +105,7 @@ public class User {
     }
 
     public void ban() {
-        this.banned = true;
+        this.banned = !this.banned;
     }
 
     public void delete() {

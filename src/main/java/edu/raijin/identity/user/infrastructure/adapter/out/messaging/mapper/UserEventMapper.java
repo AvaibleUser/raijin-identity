@@ -14,4 +14,8 @@ import edu.raijin.identity.user.domain.model.User;
 public interface UserEventMapper {
 
     UserEvent toEvent(User user, String role, String color, String code);
+
+    UserEvent toEvent(User user, String role, String color);
+
+    UserEvent toEvent(User user);
 }
