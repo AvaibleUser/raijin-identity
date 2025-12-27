@@ -22,7 +22,7 @@ import lombok.With;
 @AllArgsConstructor(access = PRIVATE)
 public class Contract {
 
-    private Long id;
+    private UUID id;
 
     private UUID userId;
 
