@@ -1,7 +1,5 @@
 package edu.raijin.identity.user.application.service;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,12 +36,13 @@ public class ConfirmService implements ConfirmUserUseCase {
         verifyUser.update(user);
 
         Role role = findRole.findRoleByUserId(user.getId());
-        String token = tokenGenerator.generateToken(user.getId(), role.getName(), List.of());
+        String token = tokenGenerator.generateToken(user.getId(), role.getName(), role.getPermissionNames());
 
         return ComplementUser.builder()
                 .user(user)
                 .role(role)
                 .token(token)
+                .permissions(role.getPermissionNames())
                 .build();
     }
 }

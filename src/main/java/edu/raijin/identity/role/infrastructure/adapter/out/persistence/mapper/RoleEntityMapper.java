@@ -15,6 +15,7 @@ import edu.raijin.identity.role.infrastructure.adapter.out.persistence.entity.Ro
 @Mapper(componentModel = "spring", nullValuePropertyMappingStrategy = IGNORE, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface RoleEntityMapper {
 
+    @Mapping(target = "permissionNames", source = "permissions")
     Role toDomain(RolesEntity entity);
 
     @Mapping(target = "permissions", ignore = true)
@@ -22,5 +23,9 @@ public interface RoleEntityMapper {
 
     default Long getId(PermissionsEntity entity) {
         return entity.getId();
+    }
+
+    default String map(PermissionsEntity entity) {
+        return entity.getKey();
     }
 }

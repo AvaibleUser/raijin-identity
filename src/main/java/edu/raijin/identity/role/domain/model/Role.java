@@ -37,6 +37,8 @@ public class Role {
 
     private List<Long> permissions;
 
+    private List<String> permissionNames;
+
     private Instant createdAt;
 
     private Instant updatedAt;
