@@ -7,6 +7,7 @@ import static lombok.AccessLevel.PRIVATE;
 import static org.apache.commons.lang3.ObjectUtils.firstNonNull;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 import edu.raijin.commons.util.exception.BadRequestException;
@@ -50,6 +51,8 @@ public class User {
     private Long roleId;
 
     private String roleColor;
+
+    private List<String> permissions;
 
     private Instant createdAt;
 
@@ -97,6 +100,10 @@ public class User {
 
     public void setRoleId(Long role) {
         this.roleId = role;
+    }
+
+    public void setPermissions(List<String> permissions) {
+        this.permissions = permissions;
     }
 
     public void verify() {

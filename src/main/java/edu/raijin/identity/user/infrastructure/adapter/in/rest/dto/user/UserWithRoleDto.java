@@ -1,6 +1,7 @@
 package edu.raijin.identity.user.infrastructure.adapter.in.rest.dto.user;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.UUID;
 
 public record UserWithRoleDto(
@@ -11,6 +12,7 @@ public record UserWithRoleDto(
         String email,
         String roleId,
         String roleColor,
+        List<String> permissions,
         Instant createdAt,
         Instant updatedAt) {
 }
